@@ -1,0 +1,35 @@
+DROP TABLE IF EXISTS `post`;
+CREATE TABLE `post` (
+	`id` SERIAL,
+	`title` VARCHAR(75) NOT NULL,
+	`content` TEXT,
+	`created_at` DATETIME DEFAULT NOW(),
+	`updated_at` DATETIME ON UPDATE CURRENT_TIMESTAMP,
+	`author_id` BIGINT UNSIGNED NOT NULL,
+	FOREIGN KEY (`author_id`) REFERENCES `users`(`id`),
+	PRIMARY KEY (`id`));
+
+
+DROP TABLE IF EXISTS `post_comment`;
+CREATE TABLE `post_comment`(
+	`id` SERIAL,
+	`content` TEXT,
+	`created_at` DATETIME DEFAULT NOW(),
+	`updated_at` DATETIME ON UPDATE CURRENT_TIMESTAMP,
+	`author` VARCHAR (100),
+	`email` VARCHAR(120) UNIQUE,
+	`post_id` BIGINT UNSIGNED NOT NULL,
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`post_id`) REFERENCES `post`(`id`));
+
+
+DROP TABLE IF EXISTS `tag`;
+CREATE TABLE `tag`(
+	 `id` SERIAL,
+	 `tag_id` BIGINT UNSIGNED NOT NULL,
+	 `title` VARCHAR(75) NOT NULL,
+  	 `slug` VARCHAR(100) NOT NULL,
+  	 `content` TEXT,
+  	PRIMARY KEY (`id`),
+    FOREIGN KEY (`tag_id`) REFERENCES `post`(`id`)
+  	);
